@@ -6,10 +6,13 @@ Exercise: Add and delete elements from a list (React)
 - When click the button, the text in the input must add to a list.
 - Also, when click any element from the list, the item has to be deleted.
 
-- [] Give more importance to functionality and usability than visual design.
-- [] The code must be writen using TypeScript.
+[] Give more importance to functionality and usability than visual design.
+[] The code must be writen using TypeScript.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+## DEMO
+- https://6688ee134212c35483729258--curious-bunny-2477db.netlify.app
 
 Currently, two official plugins are available:
 
