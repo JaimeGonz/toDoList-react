@@ -1,5 +1,14 @@
 # React + TypeScript + Vite
 
+Exercise: Add and delete elements from a list (React)
+
+- Create an app in React that implements an input and a button to add an element.
+- When click the button, the text in the input must add to a list.
+- Also, when click any element from the list, the item has to be deleted.
+
+- [] Give more importance to functionality and usability than visual design.
+- [] The code must be writen using TypeScript.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -17,12 +26,12 @@ If you are developing a production application, we recommend updating the config
 export default {
   // other rules...
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`

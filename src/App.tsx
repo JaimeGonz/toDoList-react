@@ -1,35 +1,94 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+type ItemId = `${string}-${string}-${string}-${string}-${string}`;
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface Item {
+  id: ItemId;
+  text: string;
+  timestamp: number;
 }
 
-export default App
+const INITIAL_ITEMS: Item[] = [
+  {
+    id: crypto.randomUUID(),
+    text: "Ducharme al terminar la clase",
+    timestamp: Date.now(),
+  },
+  {
+    id: crypto.randomUUID(),
+    text: "Ver que voy a cenar",
+    timestamp: Date.now(),
+  },
+];
+
+function App() {
+  const [items, setItems] = useState<Item[]>(INITIAL_ITEMS);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const { elements } = event.currentTarget;
+    const input = elements.namedItem("item");
+    const isInput = input instanceof HTMLInputElement;
+    if (!isInput || input == null) return;
+
+    const newItem: Item = {
+      id: crypto.randomUUID(),
+      text: input.value,
+      timestamp: Date.now(),
+    };
+
+    setItems((prevItems) => [...prevItems, newItem]);
+    input.value = "";
+  };
+
+  const createHandleDeleteItem = (itemId: ItemId) => () => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  };
+
+  return (
+    <main>
+      <aside>
+        <h1>Mi prueba tecnica</h1>
+        <h2>Agregar y eliminar elementos de una lista</h2>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Elemento a introducir:
+            <input
+              name="item"
+              type="text"
+              required
+              placeholder="Ir a comprar pan"
+            />
+          </label>
+          <button type="submit">Agregar elemento a la lista</button>
+        </form>
+      </aside>
+      <section>
+        <h2>Lista de cosas por hacer</h2>
+        {items.length ? (
+          <ul>
+            {items.map((item) => (
+              <li key={item.id}>
+                {item.text}
+                <button
+                  style={{ marginLeft: "10px" }}
+                  onClick={createHandleDeleteItem(item.id)}
+                >
+                  Eliminar
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>
+            <strong>No hay elementos en la lista.</strong>
+          </p>
+        )}
+      </section>
+    </main>
+  );
+}
+
+export default App;
