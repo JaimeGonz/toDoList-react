@@ -1,9 +1,11 @@
-import { useState } from "react";
 import "./App.css";
+import { Item } from "./components/Item";
+import { useItems } from "./hooks/useItems";
+import { useSEO } from "./hooks/useSEO";
 
-type ItemId = `${string}-${string}-${string}-${string}-${string}`;
+export type ItemId = `${string}-${string}-${string}-${string}-${string}`;
 
-interface Item {
+export interface Item {
   id: ItemId;
   text: string;
   timestamp: number;
@@ -23,7 +25,12 @@ interface Item {
 // ];
 
 function App() {
-  const [items, setItems] = useState<Item[]>([]);
+  const { items, addItem, deleteItem } = useItems();
+
+  useSEO({
+    title: `(${items.length}) Prueba tecnica React`,
+    description: "Agregar y eliminar elementos de una lista",
+  });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,18 +40,12 @@ function App() {
     const isInput = input instanceof HTMLInputElement;
     if (!isInput || input == null) return;
 
-    const newItem: Item = {
-      id: crypto.randomUUID(),
-      text: input.value,
-      timestamp: Date.now(),
-    };
-
-    setItems((prevItems) => [...prevItems, newItem]);
+    addItem(input.value);
     input.value = "";
   };
 
-  const createHandleDeleteItem = (itemId: ItemId) => () => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+  const createHandleDeleteItem = (id: ItemId) => () => {
+    deleteItem(id);
   };
 
   return (
@@ -73,15 +74,11 @@ function App() {
         {items.length ? (
           <ul>
             {items.map((item) => (
-              <li key={item.id}>
-                {item.text}
-                <button
-                  style={{ marginLeft: "10px" }}
-                  onClick={createHandleDeleteItem(item.id)}
-                >
-                  Eliminar
-                </button>
-              </li>
+              <Item
+                key={item.id}
+                {...item}
+                handleClick={createHandleDeleteItem(item.id)}
+              />
             ))}
           </ul>
         ) : (
