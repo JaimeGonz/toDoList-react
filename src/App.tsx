@@ -9,21 +9,21 @@ interface Item {
   timestamp: number;
 }
 
-const INITIAL_ITEMS: Item[] = [
-  {
-    id: crypto.randomUUID(),
-    text: "Ducharme al terminar la clase",
-    timestamp: Date.now(),
-  },
-  {
-    id: crypto.randomUUID(),
-    text: "Ver que voy a cenar",
-    timestamp: Date.now(),
-  },
-];
+// const INITIAL_ITEMS: Item[] = [
+//   {
+//     id: crypto.randomUUID(),
+//     text: "Ducharme al terminar la clase",
+//     timestamp: Date.now(),
+//   },
+//   {
+//     id: crypto.randomUUID(),
+//     text: "Ver que voy a cenar",
+//     timestamp: Date.now(),
+//   },
+// ];
 
 function App() {
-  const [items, setItems] = useState<Item[]>(INITIAL_ITEMS);
+  const [items, setItems] = useState<Item[]>([]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -52,7 +52,10 @@ function App() {
       <aside>
         <h1>Mi prueba tecnica</h1>
         <h2>Agregar y eliminar elementos de una lista</h2>
-        <form onSubmit={handleSubmit}>
+        <form
+          aria-label="Formulario para agregar elementos a una lista"
+          onSubmit={handleSubmit}
+        >
           <label>
             Elemento a introducir:
             <input
